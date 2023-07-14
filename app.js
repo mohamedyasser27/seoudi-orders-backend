@@ -23,7 +23,7 @@ app.use("/orders", async (req, res) => {
   res.send(data);
 });
 
-app.use("/orderInfo", async (req, res) => {
+app.use("/orderProperties", async (req, res) => {
   const metadata = await read.readTableColumns();
   res.send(metadata);
 });
