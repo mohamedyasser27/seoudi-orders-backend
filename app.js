@@ -1,22 +1,16 @@
+const read = require("./api/read");
 const express = require("express");
 const cors = require("cors");
 
-const allowedOrigins = ["http://localhost:5173"];
-
-const corsOptions = {
-  origin: (origin, callback) => {
-    if (allowedOrigins.includes(origin)) {
-      callback(null, true);
-    } else {
-      callback(new Error("Not allowed by CORS"));
-    }
-  },
-};
-
 const app = express();
-const read = require("./api/read");
+app.use(
+  cors([
+    "https://orders-seoudi.onrender.com",
+    "https://master--papaya-truffle-97e835.netlify.app",
+  ])
+);
 
-app.use(cors(corsOptions));
+
 
 app.use("/orders", async (req, res) => {
   const data = await read.readTable();
@@ -27,8 +21,5 @@ app.use("/orderProperties", async (req, res) => {
   const metadata = await read.readTableColumns();
   res.send(metadata);
 });
-
-
-
 
 module.exports = app;
