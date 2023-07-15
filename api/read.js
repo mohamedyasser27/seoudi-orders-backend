@@ -1,6 +1,6 @@
 const { query } = require("../db");
 const SelectSql =
-  "SELECT id,order_number,order_date,customer_id, CASE delivered WHEN 0 THEN 'not delivered' ELSE 'delivered' END AS pct,order_total,order_tax FROM orders";
+  "SELECT id,order_number,order_date,customer_id, CASE integrated WHEN 0 THEN 'not integrated' ELSE 'integrated' END AS pct,order_total,order_tax FROM orders";
 async function readTable() {
   return await query(SelectSql);
 }
