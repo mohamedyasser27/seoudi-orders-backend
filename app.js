@@ -10,7 +10,11 @@ app.use(
   ])
 );
 
-
+app.use("/orders/:sortBy", async (req, res) => {
+  const sortBy = req.params.sortBy;
+  const data = await read.readTableSorted(sortBy);
+  res.send(data);
+});
 
 app.use("/orders", async (req, res) => {
   const data = await read.readTable();

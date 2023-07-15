@@ -1,22 +1,18 @@
 const { query } = require("../db");
+const SelectSql =
+  "SELECT id,order_number,order_date,customer_id, CASE delivered WHEN 0 THEN 'not delivered' ELSE 'delivered' END AS pct,order_total,order_tax FROM orders";
 async function readTable() {
-  const data = await query("SELECT * FROM orders");
-  data.forEach((row) => {
-    row["flag"] = row["flag"] == 1 ? "delivered" : "not delivered";
-  });
-  return data;
-}
-async function readTableColumns() {
-  const metadata = await query("SHOW COLUMNS FROM orders");
-  const columnNames = metadata.map((columnMetaData) =>
-    columnMetaData.Field.split("_").join(" ")
-  );
-  columnNames.forEach((item, index) => {
-    if (item === "flag") {
-      columnNames[index] = "delivered";
-    }
-  });
-  return columnNames;
+  return await query(SelectSql);
 }
 
-module.exports = { readTable, readTableColumns };
+async function readTableSorted(name) {
+  const querySql = `${SelectSql} ORDER BY ${name}`;
+  return await query(querySql);
+}
+
+async function readTableColumns() {
+  const metadata = await query("SHOW COLUMNS FROM orders");
+  return metadata.map((columnMetaData) => columnMetaData.Field);
+}
+
+module.exports = { readTable, readTableColumns, readTableSorted };
