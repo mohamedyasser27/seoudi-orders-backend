@@ -1,0 +1,105 @@
+openapi: 3.0.0
+info:
+  title: Sample API
+  description: Optional multiline or single-line description in [CommonMark](http://commonmark.org/help/) or HTML.
+  version: 0.1.9
+servers:
+  - url: ^4^
+    description: Optional server description, e.g. Main (production) server
+  - url: ^5^
+    description: Optional server description, e.g. Internal staging server for testing
+paths:
+  /orders:
+    get:
+      summary: Get a list of orders
+      description: Returns a list of orders.
+      responses:
+        "200":
+          description: A list of orders.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    order_number:
+                      type: string
+                      example: "ORD001"
+                    order_date:
+                      type: string
+                      format: date-time
+                      example: "2023-06-29T21:00:00.000Z"
+                    customer_id:
+                      type: integer
+                      example: 1
+                    pct:
+                      type: string
+                      example: "integrated"
+                    order_total:
+                      type: integer
+                      example: 1000
+                    order_tax:
+                      type: integer
+                      example: 0
+
+  /orders/:sortBy:
+    get:
+      summary: Get a list of sorted orders
+      description: Returns a list of orders sorted by the specified column name.
+      parameters:
+        - in: query
+          name: sortBy
+          schema:
+            type: string
+          description: The column name to sort the results by.
+      responses:
+        "200":
+          description: A list of orders.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: object
+                  properties:
+                    id:
+                      type: integer
+                      example: 1
+                    order_number:
+                      type: string
+                      example: "ORD001"
+                    order_date:
+                      type: string
+                      format: date-time
+                      example: "2023-06-29T21:00:00.000Z"
+                    customer_id:
+                      type: integer
+                      example: 1
+                    pct:
+                      type: string
+                      example: "integrated"
+                    order_total:
+                      type: integer
+                      example: 1000
+                    order_tax:
+                      type: integer
+                      example: 0
+
+  /orders/columns:
+    get:
+      summary: Get a list of column names in the orders table
+      description: Returns a list of column names in the orders table.
+      responses:
+        "200":
+          description: A list of column names.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  type: string
+                  example: "id"
